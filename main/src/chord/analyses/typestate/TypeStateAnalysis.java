@@ -175,6 +175,7 @@ public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
 			checkIncludedI = new HashSet<Quad>();
 	
 			ProgramRel relI = (ProgramRel) ClassicProject.g().getTrgt("checkIncludedI");
+			ClassicProject.g().runTask(relI);
 			relI.load();
 			Iterable<Quad> tuples = relI.getAry1ValTuples();
 			for (Quad q : tuples)
