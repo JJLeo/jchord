@@ -67,7 +67,9 @@ import chord.program.Program;
  * 4. Whether use of may-bit is enabled or not in the analysis
  *    chord.typestate.usemaybit (default value: true)
  */
-@Chord(name = "typestate-java")
+@Chord(name = "typestate-java",
+consumes = {"modMF", "sub", "checkExcludedT", "checkIncludedI"}
+)
 public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
     protected static boolean DEBUG = false;
     protected TypeStateSpec sp;
@@ -173,9 +175,7 @@ public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
         
         {
 			checkIncludedI = new HashSet<Quad>();
-	
 			ProgramRel relI = (ProgramRel) ClassicProject.g().getTrgt("checkIncludedI");
-			ClassicProject.g().runTask(relI);
 			relI.load();
 			Iterable<Quad> tuples = relI.getAry1ValTuples();
 			for (Quad q : tuples)
