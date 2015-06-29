@@ -20,7 +20,7 @@ public class Solver {
      */
     public static void run(String fileName) {
         String[] cmdArray = new String[] {
-        	Config.fixCPU ? "taskset " + Config.bddbddbCPUID: "",
+        	Config.fixCPU ? "taskset -c " + Config.bddbddbCPUID: "",
             "java",
             "-ea",
             "-Xmx" + Config.bddbddbMaxHeap,

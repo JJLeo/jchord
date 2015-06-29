@@ -206,7 +206,7 @@ public class Boot {
         List<String> cmdList = new ArrayList<String>();
         if (isFixedCPU) {
         	cmdList.add("taskset");
-        	cmdList.add(CPUID);
+        	cmdList.add("-c " + CPUID);
         }
         cmdList.add("java");
         for (String s : jvmargs.split(" "))
