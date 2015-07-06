@@ -23,7 +23,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-
 import joeq.ClassLib.ClassLibInterface;
 import joeq.Main.jq;
 import joeq.UTF.Utf8;
@@ -32,7 +31,6 @@ import jwutil.collections.Filter;
 import jwutil.collections.FilterIterator;
 import jwutil.collections.UnmodifiableIterator;
 import jwutil.util.Assert;
-
 import java.io.Serializable;
 
 /**
@@ -76,30 +74,30 @@ public class PrimordialClassLoader extends ClassLoader implements jq_ClassFileCo
         loader.put_desc2type(jq_Array.BOOLEAN_ARRAY.getDesc(), jq_Array.BOOLEAN_ARRAY);
     }
     
-    public static PrimordialClassLoader loader;
-    public static jq_Class JavaLangObject;
-    public static jq_Class JavaLangClass;
-    public static jq_Class JavaLangString;
-    public static jq_Class JavaLangSystem;
-    public static jq_Class JavaLangThrowable;
-    public static jq_Array AddressArray;
-	public static jq_Class JavaLangException;
-	public static jq_Class JavaLangArrayStoreException;
-	public static jq_Class JavaLangError;
-	public static jq_Class JavaLangRuntimeException;
-	public static jq_Class JavaLangNullPointerException;
-	public static jq_Class JavaLangIndexOutOfBoundsException;
-	public static jq_Class JavaLangArrayIndexOutOfBoundsException;
-	public static jq_Class JavaLangNegativeArraySizeException;
-	public static jq_Class JavaLangArithmeticException;
-	public static jq_Class JavaLangIllegalMonitorStateException;
-	public static jq_Class JavaLangClassCastException;
-	public static jq_Class JavaLangClassLoader;
-	public static jq_Class JavaLangReflectField;
-	public static jq_Class JavaLangReflectMethod;
-	public static jq_Class JavaLangReflectConstructor;
-	public static jq_Class JavaLangThread;
-	public static jq_Class JavaLangRefFinalizer;
+    public static final PrimordialClassLoader loader;
+    public static final jq_Class JavaLangObject;
+    public static final jq_Class JavaLangClass;
+    public static final jq_Class JavaLangString;
+    public static final jq_Class JavaLangSystem;
+    public static final jq_Class JavaLangThrowable;
+    public static final jq_Array AddressArray;
+	public static final jq_Class JavaLangException;
+	public static final jq_Class JavaLangArrayStoreException;
+	public static final jq_Class JavaLangError;
+	public static final jq_Class JavaLangRuntimeException;
+	public static final jq_Class JavaLangNullPointerException;
+	public static final jq_Class JavaLangIndexOutOfBoundsException;
+	public static final jq_Class JavaLangArrayIndexOutOfBoundsException;
+	public static final jq_Class JavaLangNegativeArraySizeException;
+	public static final jq_Class JavaLangArithmeticException;
+	public static final jq_Class JavaLangIllegalMonitorStateException;
+	public static final jq_Class JavaLangClassCastException;
+	public static final jq_Class JavaLangClassLoader;
+	public static final jq_Class JavaLangReflectField;
+	public static final jq_Class JavaLangReflectMethod;
+	public static final jq_Class JavaLangReflectConstructor;
+	public static final jq_Class JavaLangThread;
+	public static final jq_Class JavaLangRefFinalizer;
     static {
         loader = new PrimordialClassLoader();
         initPrimitiveTypes();
@@ -151,38 +149,10 @@ public class PrimordialClassLoader extends ClassLoader implements jq_ClassFileCo
     public static jq_Class getJavaLangReflectConstructor() { return JavaLangReflectConstructor; }
     public static jq_Class getJavaLangThread() { return JavaLangThread; }
     public static jq_Class getJavaLangRefFinalizer() { return JavaLangRefFinalizer; }
-    private Map/*<Utf8, jq_Type>*/ bs_desc2type;
+    private final Map/*<Utf8, jq_Type>*/ bs_desc2type;
     private jq_Type[] allTypes;
 	private int numTypes;
     private final Classpath classpath;
-    
-    public void clearMap() {
-    	bs_desc2type.clear();
-    	initPrimitiveTypes();
-        JavaLangObject = (jq_Class)loader.getOrCreateBSType("Ljava/lang/Object;");
-        JavaLangClass = (jq_Class)loader.getOrCreateBSType("Ljava/lang/Class;");
-        JavaLangString = (jq_Class)loader.getOrCreateBSType("Ljava/lang/String;");
-        JavaLangSystem = (jq_Class)loader.getOrCreateBSType("Ljava/lang/System;");
-        JavaLangThrowable = (jq_Class)loader.getOrCreateBSType("Ljava/lang/Throwable;");
-        AddressArray = (jq_Array)loader.getOrCreateBSType("[Ljoeq/Memory/Address;");
-		JavaLangException = (jq_Class)loader.getOrCreateBSType("Ljava/lang/Exception;");
-		JavaLangArrayStoreException = (jq_Class)loader.getOrCreateBSType("Ljava/lang/ArrayStoreException;");
-		JavaLangError = (jq_Class)loader.getOrCreateBSType("Ljava/lang/Error;");
-		JavaLangRuntimeException = (jq_Class)loader.getOrCreateBSType("Ljava/lang/RuntimeException;");
-		JavaLangNullPointerException = (jq_Class)loader.getOrCreateBSType("Ljava/lang/NullPointerException;"); 
-		JavaLangIndexOutOfBoundsException = (jq_Class)loader.getOrCreateBSType("Ljava/lang/IndexOutOfBoundsException;"); 
-		JavaLangArrayIndexOutOfBoundsException = (jq_Class)loader.getOrCreateBSType("Ljava/lang/ArrayIndexOutOfBoundsException;"); 
-		JavaLangNegativeArraySizeException = (jq_Class)loader.getOrCreateBSType("Ljava/lang/NegativeArraySizeException;"); 
-		JavaLangArithmeticException = (jq_Class)loader.getOrCreateBSType("Ljava/lang/ArithmeticException;"); 
-		JavaLangIllegalMonitorStateException = (jq_Class)loader.getOrCreateBSType("Ljava/lang/IllegalMonitorStateException;"); 
-		JavaLangClassCastException = (jq_Class)loader.getOrCreateBSType("Ljava/lang/ClassCastException;");
-		JavaLangClassLoader = (jq_Class)loader.getOrCreateBSType("Ljava/lang/ClassLoader;");
-		JavaLangReflectField = (jq_Class)loader.getOrCreateBSType("Ljava/lang/reflect/Field;");
-		JavaLangReflectMethod = (jq_Class)loader.getOrCreateBSType("Ljava/lang/reflect/Method;");
-		JavaLangReflectConstructor = (jq_Class)loader.getOrCreateBSType("Ljava/lang/reflect/Constructor;");
-		JavaLangThread = (jq_Class)loader.getOrCreateBSType("Ljava/lang/Thread;");
-		JavaLangRefFinalizer = (jq_Class)loader.getOrCreateBSType("Ljava/lang/ref/Finalizer;");
-    }
 
 	public Classpath getClasspath() { return classpath; }
 
