@@ -19,6 +19,12 @@ public class Config {
     public final static String maxHeap = System.getProperty("chord.max.heap");
     public final static String maxStack = System.getProperty("chord.max.stack");
     public final static String jvmargs = System.getProperty("chord.jvmargs");
+<<<<<<< HEAD
+=======
+    public final static boolean fixCPU = Utils.buildBoolProperty("chord.fixCPU",false);
+    public final static String CPUID = System.getProperty("chord.CPUID", "0");
+    public final static String bddbddbCPUID = System.getProperty("chord.bddbddb.CPUID", "0");
+>>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 
     // basic properties about program being analyzed (its main class, classpath, command line args, etc.)
 
@@ -168,6 +174,12 @@ public class Config {
         System.out.println("chord.max.heap: " + maxHeap);
         System.out.println("chord.max.stack: " + maxStack);
         System.out.println("chord.jvmargs: " + jvmargs);
+<<<<<<< HEAD
+=======
+        System.out.println("chord.fixCPU: " + fixCPU);
+        System.out.println("chord.cpuID: " + CPUID);
+        System.out.println("chord.bddbddb.CPUID: " + bddbddbCPUID);
+>>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
         System.out.println("chord.main.dir: " + mainDirName);
         System.out.println("chord.work.dir: " + workDirName);
         System.out.println("chord.main.class: " + mainClassName);

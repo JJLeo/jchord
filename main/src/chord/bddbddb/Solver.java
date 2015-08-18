@@ -19,6 +19,7 @@ public class Solver {
      * @param fileName A file containing a Datalog program.
      */
     public static void run(String fileName) {
+<<<<<<< HEAD
         String[] cmdArray = new String[] {
             "java",
             "-ea",
@@ -32,5 +33,39 @@ public class Solver {
             fileName
         };
         OutDirUtils.executeWithFailOnError(cmdArray);
+=======
+    	if (Config.fixCPU) {
+    		String[] cmdArray = new String[] {
+    			"taskset",
+    			"-c",
+    			Config.bddbddbCPUID,
+    			"java",
+    			"-ea",
+    			"-Xmx" + Config.bddbddbMaxHeap,
+    			"-cp",
+    			Config.mainDirName + File.separator + "chord.jar" + File.pathSeparatorChar + Config.bddCodeFragmentFolder,
+    			"-Dverbose=" + Config.verbose,
+    			Config.useBuddy ? ("-Djava.library.path=" + Config.mainDirName) : "-Dbdd=j",
+    				"-Dbasedir=" + Config.bddbddbWorkDirName,
+    				"net.sf.bddbddb.Solver",
+    				fileName
+    		};
+    		OutDirUtils.executeWithFailOnError(cmdArray);
+    	} else {
+    		String[] cmdArray = new String[] {
+    			"java",
+    			"-ea",
+    			"-Xmx" + Config.bddbddbMaxHeap,
+    			"-cp",
+    			Config.mainDirName + File.separator + "chord.jar" + File.pathSeparatorChar + Config.bddCodeFragmentFolder,
+    			"-Dverbose=" + Config.verbose,
+    			Config.useBuddy ? ("-Djava.library.path=" + Config.mainDirName) : "-Dbdd=j",
+    				"-Dbasedir=" + Config.bddbddbWorkDirName,
+    				"net.sf.bddbddb.Solver",
+    				fileName
+    		};
+    		OutDirUtils.executeWithFailOnError(cmdArray);
+    	}
+>>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
     }
 }

@@ -40,6 +40,10 @@ import chord.project.analyses.provenance.Tuple;
  * -Dchord.provenance.invkK=<2>: if we use boolean domain, what is the k value we want for invoke sites
  * -Dchord.provenance.allocK=<2>: if we use boolean domain, what is the k value we want for alloc sites 
  * -Dchord.provenance.numQueries: randomly track given number of queries, default(-1) to track all queries
+<<<<<<< HEAD
+=======
+ * -Dchord.provenance.maxsatDebug: turn on debug options of the maxsat solver
+>>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
  * @author xin
  * 
  */
@@ -118,6 +122,11 @@ public class KOBJRefiner extends JavaAnalysis {
 			queryRelName = "ptsVH";
 		}else
 			throw new RuntimeException("Unknown client: " + this.client);
+<<<<<<< HEAD
+=======
+		
+		MaxSatGenerator.DEBUG = Boolean.getBoolean("chord.provenance.maxsatDebug");
+>>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 
 		//The analyses we need to run
 		tasks = new ArrayList<ITask>();
@@ -238,7 +247,11 @@ public class KOBJRefiner extends JavaAnalysis {
 	private void runAll() {
 		//Set up MaxSatGenerator
 		gen = createMaxSatGenerator(new PTHandler(ifMono, ifBool), queryWeight);
+<<<<<<< HEAD
 		gen.DEBUG = false;
+=======
+//		gen.DEBUG = false;
+>>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 		PTHandler.max = max;
 		int numIter = 0;
 		int kcfaImp = 0;
@@ -282,7 +295,11 @@ public class KOBJRefiner extends JavaAnalysis {
 					//Attempt to solve in one run
 					MaxSatGenerator tempGen = createMaxSatGenerator(new PTHandler(ifMono,false), MaxSatGenerator.QUERY_MAX);
 					tempGen.update(hardQueries);
+<<<<<<< HEAD
 					Set<Tuple> tupleToEli = tempGen.solve(hardQueries, -1+"");
+=======
+					Set<Tuple> tupleToEli = tempGen.solve(hardQueries, numIter+"_check");
+>>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 					tupleToEli.retainAll(hardQueries);
 					System.out.println("Queries unsovable using KCFA: "+tupleToEli);
 					kcfaImp += tupleToEli.size();
@@ -501,7 +518,11 @@ public class KOBJRefiner extends JavaAnalysis {
 		printlnInfo("Processing query: " + q);
 		int numIter = 0;
 		gen = createMaxSatGenerator(new PTHandler(ifMono,ifBool), MaxSatGenerator.QUERY_HARD);
+<<<<<<< HEAD
 		gen.DEBUG = false;
+=======
+//		gen.DEBUG = false;
+>>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 		while (true) {
 			if(ifMono)
 				gen = createMaxSatGenerator(new PTHandler(ifMono, ifBool), MaxSatGenerator.QUERY_HARD);

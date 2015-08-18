@@ -724,11 +724,18 @@ public class AllocEnvCFAAnalysis extends InfiCFARHSAnalysis<BitEdge<Quad>, BitEd
 		jq_Type[] paramTypes = m.getParamTypes();
 		for (int i = 0; i < args.length(); i++) {
 			Register actualReg = args.get(i).getRegister();
+<<<<<<< HEAD
 			Register formalReg = rf.get(i);
 			BitSet paramVarPtsTo;
 			if(i == 0 && ((!isStatic && useExtraFilters)  || isReflect)){
 				paramVarPtsTo = callerVarPtsToFiltered;
 			}else if(i == 1 && isReflect && conNewInstIMMap.get(q)!=null){
+=======
+			BitSet paramVarPtsTo;
+			if(i == 0 && ((!isStatic && useExtraFilters)  || isReflect)){
+				paramVarPtsTo = callerVarPtsToFiltered;
+			}else if(i == 1 && isReflect && conNewInstIMMap.get(q)!=null && paramTypes.length > 1){
+>>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 				BitSet actualVarPtsTo = oldDst.envLocal.get(actualReg);
 				paramVarPtsTo = null;
 				if(actualVarPtsTo != null){
@@ -763,6 +770,10 @@ public class AllocEnvCFAAnalysis extends InfiCFARHSAnalysis<BitEdge<Quad>, BitEd
 				paramVarPtsTo = oldDst.envLocal.get(actualReg);
 				
 			if(paramVarPtsTo != null){
+<<<<<<< HEAD
+=======
+				Register formalReg = rf.get(i);
+>>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 				BitSet dstFiltered = new BitSet();
 				dstFiltered.or(paramVarPtsTo);
 				BitSet filterSet = THFilterMap.get(paramTypes[i]);
