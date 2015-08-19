@@ -101,8 +101,6 @@ public class CICG extends AbstractGraph<jq_Method> implements ICICG {
         Iterable<jq_Method> res = relRootM.getAry1ValTuples();
         return SetUtils.iterableToSet(res, relRootM.size());
     }
-<<<<<<< HEAD
-=======
     public Set<jq_Method> getRootsOrdered() {
     	if (!relRootM.isOpen())
             relRootM.load();
@@ -111,7 +109,6 @@ public class CICG extends AbstractGraph<jq_Method> implements ICICG {
         for (jq_Method e : res) set.add(e);
         return set;
     }
->>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
     public Set<jq_Method> getNodes() {
         if (!relReachableM.isOpen())
             relReachableM.load();

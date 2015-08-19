@@ -1,9 +1,6 @@
 package chord.analyses.typestate;
 
-<<<<<<< HEAD
-=======
 import java.io.PrintWriter;
->>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +29,9 @@ import joeq.Compiler.Quad.Operator.MultiNewArray;
 import joeq.Compiler.Quad.Operator.Putfield;
 import joeq.Compiler.Quad.Operator.Putstatic;
 import joeq.Compiler.Quad.Operator.Return;
-<<<<<<< HEAD
-import joeq.Compiler.Quad.Operator.Return.THROW_A;
-=======
 import joeq.Compiler.Quad.Operator.Invoke.InvokeStatic;
 import joeq.Compiler.Quad.Operator.Return.THROW_A;
 import joeq.Compiler.Quad.Operator;
->>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 import joeq.Compiler.Quad.Quad;
 import joeq.Compiler.Quad.QuadVisitor;
 import joeq.Compiler.Quad.RegisterFactory;
@@ -54,10 +47,7 @@ import chord.program.Loc;
 import chord.project.Chord;
 import chord.project.ClassicProject;
 import chord.project.Messages;
-<<<<<<< HEAD
-=======
 import chord.project.OutDirUtils;
->>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 import chord.project.analyses.ProgramRel;
 import chord.project.analyses.rhs.RHSAnalysis;
 import chord.util.ArraySet;
@@ -77,13 +67,9 @@ import chord.program.Program;
  * 4. Whether use of may-bit is enabled or not in the analysis
  *    chord.typestate.usemaybit (default value: true)
  */
-<<<<<<< HEAD
-@Chord(name = "typestate-java")
-=======
 @Chord(name = "typestate-java",
 consumes = {"modMF", "sub", "checkExcludedT", "checkIncludedI"}
 )
->>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
     protected static boolean DEBUG = false;
     protected TypeStateSpec sp;
@@ -97,10 +83,7 @@ public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
     protected String cipaName, cicgName;
     public static TypeState startState, errorState;
     private boolean isInit;
-<<<<<<< HEAD
-=======
     protected Set<Quad> checkIncludedI;
->>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 
     // subclasses can override
     public TypeStateSpec getTypeStateSpec() {
@@ -189,8 +172,6 @@ public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
             }
             relCheckExcludedT.close();
         }
-<<<<<<< HEAD
-=======
         
         {
 			checkIncludedI = new HashSet<Quad>();
@@ -201,7 +182,6 @@ public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
 				checkIncludedI.add(q);
 			relI.close();
 		}
->>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
     }
 
     @Override
@@ -209,11 +189,8 @@ public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
         init();
         runPass();
         if (DEBUG) print();
-<<<<<<< HEAD
-=======
         printAllQueries();
         printErrQueries();
->>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
         done();
     }
 
@@ -221,11 +198,7 @@ public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
     public ICICG getCallGraph() {
         return cicg;
     }
-<<<<<<< HEAD
-
-=======
     
->>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
     /*
      * For each reachable method 'm' adds the following path edges:
      * 1. <null, null, null>
@@ -551,8 +524,6 @@ public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
         if (DEBUG) System.out.println("\nCalled getSummaryEdge: m=" + m + " pe=" + pe);
         return getCopy(pe);
     }
-<<<<<<< HEAD
-=======
     
     // Helper functions for printing the results of the typestate analysis
    private static boolean isInterestingSite(Operator o) {
@@ -609,7 +580,6 @@ public class TypeStateAnalysis extends RHSAnalysis<Edge, Edge> {
 		}
 		out.close();
 	}
->>>>>>> 7071072d08e1c112433b4592dfa5f43104e50ac2
 
     public class MyQuadVisitor extends QuadVisitor.EmptyVisitor {
         public AbstractState istate;    // immutable, may be null
