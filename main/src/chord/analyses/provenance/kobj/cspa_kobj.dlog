@@ -111,7 +111,7 @@ CHC(c:C,h:H,d:C) input
 COC(c:C,h:H,d:C) input
 
 CCMatch(c:C,d:C)
-CCM(c:C,d:C,m:M)
+CCM(c:C,d:C,m:M) output
 
 ###
 # Constraints
