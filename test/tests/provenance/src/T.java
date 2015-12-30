@@ -7,8 +7,7 @@ public class T {
 		C1 c2 = new C1();
 		t1.put(c1);
 		t2.put(c2);
-		C c = t2.get();
-		c.m();
+		C1 c = (C1)t2.get();
 	}
 	void put(C c){
 		this.c = c;
