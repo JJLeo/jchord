@@ -41,7 +41,7 @@ public class SystemArraycopyCFGBuilder implements ICFGBuilder {
 		Register r4 = rf.getOrCreateLocal(4, jq_Primitive.INT);
 		Register t0 = rf.getOrCreateStack(0, at);
 		Register t1 = rf.getOrCreateStack(1, at);
-		Register t2 = rf.getOrCreateStack(1, ot);
+		Register t2 = rf.getOrCreateStack(2, ot);
 		ControlFlowGraph cfg = new ControlFlowGraph(m, 1, 0, rf);
 		RegisterOperand ro0 = new RegisterOperand(r0, ot);
 		RegisterOperand ro2 = new RegisterOperand(r2, ot);
