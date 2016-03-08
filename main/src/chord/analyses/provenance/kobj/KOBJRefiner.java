@@ -109,9 +109,9 @@ public class KOBJRefiner extends JavaAnalysis {
 			queryRelName = "unsafeDowncast";
 		} else if (client.equals("datarace")){
 			this.client = 2;
-			clientFile = "pro-datarace-dlog_XZ89_";
-			clientConfigPath = "src/chord/analyses/provenance/race/pro-datarace-dlog_XZ89_.config";
-			queryRelName = "racePairs";
+			clientFile = "datarace-refiner-dlog_XZ89_";
+			clientConfigPath = "src/chord/analyses/provenance/race/datarace-refiner-dlog_XZ89_.config";
+			queryRelName = "racePairs_cs";
 		}else if (client.equals("pts")){
 			this.client = 3;
 			clientFile = "pro-pts-dlog_XZ89_";
@@ -129,6 +129,15 @@ public class KOBJRefiner extends JavaAnalysis {
 		tasks.add(ClassicProject.g().getTask("pro-argCopy-dlog"));
 		tasks.add(ClassicProject.g().getTask("kobj-bit-init-dlog_XZ89_"));
 		tasks.add(ClassicProject.g().getTask("pro-cspa-kobj-dlog_XZ89_"));
+		if(this.client==2){
+			tasks.add(ClassicProject.g().getTask("thrSenCSCG-dlog"));
+			tasks.add(ClassicProject.g().getTask("reachableACM-dlog"));
+			tasks.add(ClassicProject.g().getTask("syncCLC-dlog"));
+			tasks.add(ClassicProject.g().getTask("datarace-nongrded-include-cs-dlog"));
+			tasks.add(ClassicProject.g().getTask("escE-java")); //PLDI'16
+			tasks.add(ClassicProject.g().getTask("datarace-cs-init-dlog"));
+		}
+		
 		tasks.add(ClassicProject.g().getTask(clientFile));
 
 		System.setProperty("chord.ctxt.kind", "co");
