@@ -56,6 +56,10 @@ public class PTHandler implements ParamTupleConsHandler {
 			else
 				throw new RuntimeException("Not a param tuple: "+t);
 	}
+	
+	public void addConstTuple(Tuple t){
+		constTuples.add(t);
+	}
 
 	@Override
 	public Set<FormatedConstraint> getHardCons(int w, Set<Tuple> paramTSet, MaxSatGenerator gen) {
