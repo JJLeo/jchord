@@ -415,7 +415,7 @@ public class KOBJRefiner extends JavaAnalysis {
 			Quad H = (Quad) domH.get(i);
 			Integer k = abs.get(H);
 			if (k == null||k==0)
-				k = 1;
+				k = ifCfa2 ? 2 : 1;
 			setHK(H,k);
 		}
 		HKRel.save();
@@ -429,7 +429,7 @@ public class KOBJRefiner extends JavaAnalysis {
 			Quad H = (Quad) domH.get(i);
 			Integer k = abs.get(H);
 			if (k == null)
-				k = 0;
+				k = ifCfa2 ? 2 : 0;
 			setOK(H,k);
 		}
 		OKRel.save();
