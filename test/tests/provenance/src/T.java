@@ -7,7 +7,13 @@ public class T {
 		C1 c2 = new C1();
 		t1.put(c1);
 		t2.put(c2);
-		C1 c = (C1)t2.get();
+		C c = null;
+		if(c2 == null){
+			c = t2.get();
+		}
+		else
+			c = t1.get();
+		c.m();
 	}
 	void put(C c){
 		this.c = c;

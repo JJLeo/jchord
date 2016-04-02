@@ -1,10 +1,11 @@
 package chord.project.analyses.provenance;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class FormatedConstraint{
-	int weight;
-	int[] constraint;
+	public int weight;
+	public int[] constraint;
 	public FormatedConstraint(int weight, int[] constraint){
 		this.weight = weight;
 		this.constraint = constraint;
@@ -33,4 +34,31 @@ public class FormatedConstraint{
 	public int[] getConstraint(){
 		return this.constraint;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(constraint);
+		result = prime * result + weight;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FormatedConstraint other = (FormatedConstraint) obj;
+		if (!Arrays.equals(constraint, other.constraint))
+			return false;
+		if (weight != other.weight)
+			return false;
+		return true;
+	}
+	
+	
 }

@@ -18,6 +18,7 @@
 
 CICM(c:C,i:I,d:C,m:M) input
 virtIM(i:I,m:M) input
+checkExcludedI(i:I) input
 virtI(i:I)
 polySite(i:I) output
 monoSite(i:I) output
@@ -26,6 +27,6 @@ insvIM(i:I,m:M)
 insvIM(i,m) :- CICM(_,i,_,m).
 
 virtI(i) :- virtIM(i,_).
-polySite(i) :- virtI(i), insvIM(i,m1), insvIM(i,m2), m1!=m2.
-monoSite(i) :- virtI(i), !polySite(i).
+polySite(i) :- virtI(i), insvIM(i,m1), insvIM(i,m2), !checkExcludedI(i), m1!=m2.
+monoSite(i) :- virtI(i), !checkExcludedI(i),!polySite(i).
 
