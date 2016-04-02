@@ -97,6 +97,7 @@ public class KOBJRefiner extends JavaAnalysis {
 		}
 		
 		String client = System.getProperty("chord.provenance.client");
+		// When adding a new client, the getClientPTHandler must be updated to add the axiom tuples
 		if (client.equals("polysite")) {
 			this.client = 0;
 			clientFile = "polysite-dlog_XZ89_";
@@ -109,9 +110,9 @@ public class KOBJRefiner extends JavaAnalysis {
 			queryRelName = "unsafeDowncast";
 		} else if (client.equals("datarace")){
 			this.client = 2;
-			clientFile = "pro-datarace-dlog_XZ89_";
-			clientConfigPath = "src/chord/analyses/provenance/race/pro-datarace-dlog_XZ89_.config";
-			queryRelName = "racePairs";
+			clientFile = "datarace-refiner-dlog_XZ89_";
+			clientConfigPath = "src/chord/analyses/provenance/race/datarace-refiner-dlog_XZ89_.config";
+			queryRelName = "racePairs_cs";
 		}else if (client.equals("pts")){
 			this.client = 3;
 			clientFile = "pro-pts-dlog_XZ89_";
@@ -129,6 +130,15 @@ public class KOBJRefiner extends JavaAnalysis {
 		tasks.add(ClassicProject.g().getTask("pro-argCopy-dlog"));
 		tasks.add(ClassicProject.g().getTask("kobj-bit-init-dlog_XZ89_"));
 		tasks.add(ClassicProject.g().getTask("pro-cspa-kobj-dlog_XZ89_"));
+		if(this.client==2){
+			tasks.add(ClassicProject.g().getTask("thrSenCSCG-dlog"));
+			tasks.add(ClassicProject.g().getTask("reachableACM-dlog"));
+			tasks.add(ClassicProject.g().getTask("syncCLC-dlog"));
+			tasks.add(ClassicProject.g().getTask("datarace-nongrded-include-cs-dlog"));
+			tasks.add(ClassicProject.g().getTask("escE-java")); //PLDI'16
+			tasks.add(ClassicProject.g().getTask("datarace-cs-init-dlog"));
+		}
+		
 		tasks.add(ClassicProject.g().getTask(clientFile));
 
 		System.setProperty("chord.ctxt.kind", "co");
@@ -240,7 +250,7 @@ public class KOBJRefiner extends JavaAnalysis {
 
 	private void runAll() {
 		//Set up MaxSatGenerator
-		gen = createMaxSatGenerator(new PTHandler(ifMono, ifBool), queryWeight);
+		gen = createMaxSatGenerator(getClientPTHandler(ifMono, ifBool), queryWeight);
 //		gen.DEBUG = false;
 		PTHandler.max = max;
 		int numIter = 0;
@@ -248,7 +258,7 @@ public class KOBJRefiner extends JavaAnalysis {
 		int totalQs = unresolvedQs.size();
 		while (unresolvedQs.size() != 0) {
 			if(ifMono)
-				gen = createMaxSatGenerator(new PTHandler(ifMono, ifBool), queryWeight);
+				gen = createMaxSatGenerator(getClientPTHandler(ifMono, ifBool), queryWeight);
 			printlnInfo("===============================================");
 			printlnInfo("===============================================");
 			printlnInfo("Iteration: " + numIter + " unresolved queries size: " + unresolvedQs.size());
@@ -283,7 +293,7 @@ public class KOBJRefiner extends JavaAnalysis {
 					gen = null;//save some memory
 					System.out.println("Let's check if they're impossible because of the boolean domain limitaion");
 					//Attempt to solve in one run
-					MaxSatGenerator tempGen = createMaxSatGenerator(new PTHandler(ifMono,false), MaxSatGenerator.QUERY_MAX);
+					MaxSatGenerator tempGen = createMaxSatGenerator(getClientPTHandler(ifMono,false), MaxSatGenerator.QUERY_MAX);
 					tempGen.update(hardQueries);
 					Set<Tuple> tupleToEli = tempGen.solve(hardQueries, numIter+"_check");
 					tupleToEli.retainAll(hardQueries);
@@ -406,7 +416,7 @@ public class KOBJRefiner extends JavaAnalysis {
 			Quad H = (Quad) domH.get(i);
 			Integer k = abs.get(H);
 			if (k == null||k==0)
-				k = 1;
+				k = ifCfa2 ? 2 : 1;
 			setHK(H,k);
 		}
 		HKRel.save();
@@ -420,7 +430,7 @@ public class KOBJRefiner extends JavaAnalysis {
 			Quad H = (Quad) domH.get(i);
 			Integer k = abs.get(H);
 			if (k == null)
-				k = 0;
+				k = ifCfa2 ? 2 : 0;
 			setOK(H,k);
 		}
 		OKRel.save();
@@ -503,11 +513,11 @@ public class KOBJRefiner extends JavaAnalysis {
 	private void runSingle(Tuple q) {
 		printlnInfo("Processing query: " + q);
 		int numIter = 0;
-		gen = createMaxSatGenerator(new PTHandler(ifMono,ifBool), MaxSatGenerator.QUERY_HARD);
+		gen = createMaxSatGenerator(getClientPTHandler(ifMono,ifBool), MaxSatGenerator.QUERY_HARD);
 //		gen.DEBUG = false;
 		while (true) {
 			if(ifMono)
-				gen = createMaxSatGenerator(new PTHandler(ifMono, ifBool), MaxSatGenerator.QUERY_HARD);
+				gen = createMaxSatGenerator(getClientPTHandler(ifMono, ifBool), MaxSatGenerator.QUERY_HARD);
 			printlnInfo("===============================================");
 			printlnInfo("===============================================");
 			printlnInfo("Iteration: " + numIter);
@@ -557,6 +567,17 @@ public class KOBJRefiner extends JavaAnalysis {
 	private void printInfo(String s) {
 		System.out.print(s);
 		debugPW.print(s);
+	}
+	
+	private PTHandler getClientPTHandler(boolean ifMono, boolean ifBool){
+		PTHandler pth = new PTHandler(ifMono,ifBool);
+		if(this.client == 2){
+			ProgramRel pathedgecs = (ProgramRel) ClassicProject.g().getTrgt("PathEdge_cs");
+			int[] tIndx = {0,0,1,0,0};
+			Tuple t = new Tuple(pathedgecs, tIndx);
+			pth.addConstTuple(t);
+		}
+		return pth;
 	}
 
 }
