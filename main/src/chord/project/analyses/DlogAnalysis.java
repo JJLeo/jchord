@@ -87,7 +87,7 @@ public class DlogAnalysis extends JavaAnalysis {
             Messages.log(ex.getMessage());
             return false;
         }
-        Pattern p = Pattern.compile("(\\w)+\\((\\w)+:(\\w)+(,(\\w)+:(\\w)+)*\\)((input)|(output))");
+        Pattern p = Pattern.compile("(\\w)+\\((\\w)+:(\\w)+(,(\\w)+:(\\w)+)*\\)((input)|(output)).*");
         for (lineNum = 1; true; lineNum++) {
             String s;
             try {
@@ -230,9 +230,9 @@ public class DlogAnalysis extends JavaAnalysis {
             for (int j = 0; j < numDoms; j++)
                 domNames[j] = relMinorDomNames.get(j);
             Map<String, RelSign> map = null;
-            if (s.equals("input"))
+            if (s.indexOf("input") == 0)
                 map = consumedRels;
-            else if (s.equals("output"))
+            else if (s.indexOf("output") == 0)
                 map = producedRels;
             else
                 assert false; 
