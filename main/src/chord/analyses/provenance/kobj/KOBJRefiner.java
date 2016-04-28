@@ -238,7 +238,7 @@ public class KOBJRefiner extends JavaAnalysis {
 		statPW.close();
 	}
 	
-	private MaxSatGenerator createMaxSatGenerator(PTHandler ptHandler, int queryWeight) {
+	protected MaxSatGenerator createMaxSatGenerator(PTHandler ptHandler, int queryWeight) {
 		Model model;
 		if(modelStr.endsWith("default"))
 			model = new DefaultModel();
