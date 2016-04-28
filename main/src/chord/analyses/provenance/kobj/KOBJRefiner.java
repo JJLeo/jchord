@@ -53,7 +53,7 @@ public class KOBJRefiner extends JavaAnalysis {
 	Set<Tuple> unresolvedQs = new HashSet<Tuple>();
 	Set<Tuple> impossiQs = new HashSet<Tuple>();
 	MaxSatGenerator gen;
-	String[] configFiles;
+	protected String[] configFiles;
 
 	ProgramRel IKRel;
 	ProgramRel HKRel;
@@ -71,8 +71,8 @@ public class KOBJRefiner extends JavaAnalysis {
 
 	String clientFile;
 	String clientConfigPath;
-	String queryRelName;
-	String modelStr;
+	protected String queryRelName;
+	protected String modelStr;
 	
 	boolean ifCfa2;
 	boolean ifHeap;
