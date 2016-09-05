@@ -2,6 +2,8 @@
 #   JDK_ROOT    -- location where you installed JDK
 #   M32_FLAG    -- "-m32" if using 32-bit JVM on 64-bit machine
 
+JDK_ROOT = /Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home
+
 DIST_DIR = ..
 INSTR_LIB_NAME = $(DIST_DIR)/libchord_instr_agent.so
 ifdef JDK_ROOT

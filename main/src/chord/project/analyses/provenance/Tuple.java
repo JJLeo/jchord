@@ -3,8 +3,11 @@ package chord.project.analyses.provenance;
 import java.util.Arrays;
 
 import chord.bddbddb.Dom;
+import chord.bddbddb.Rel.RelView;
 import chord.project.ClassicProject;
 import chord.project.analyses.ProgramRel;
+import joeq.Compiler.Quad.Quad;
+import joeq.Compiler.Quad.RegisterFactory.Register;
 
 /**
  * Represents a tuple in the program relation
@@ -16,6 +19,7 @@ public class Tuple {
 	private ProgramRel relation;
 	private Dom[] domains;
 	private int[] domIndices;
+	public static ProgramRel relMV = null;
 
 	public Tuple(ProgramRel relation, int[] indices) {
 		this.relation = relation;
@@ -29,31 +33,31 @@ public class Tuple {
 	 * @param s
 	 */
 	public Tuple(String s) {
-		String splits1[] = s.split("\\("); 
+		String splits1[] = s.split("\\(");
 		String rName = splits1[0];
 		String indexString = splits1[1].replace(")", "");
 		String splits2[] = indexString.split(",");
-		relation = (ProgramRel)ClassicProject.g().getTrgt(rName);
-	//	relation.load();
+		relation = (ProgramRel) ClassicProject.g().getTrgt(rName);
+		// relation.load();
 		domains = relation.getDoms();
 		domIndices = new int[splits2.length];
-		for(int i = 0 ; i < splits2.length; i++){
+		for (int i = 0; i < splits2.length; i++) {
 			domIndices[i] = Integer.parseInt(splits2[i]);
 		}
 	}
 
-	public Dom[] getDomains(){
+	public Dom[] getDomains() {
 		return this.domains;
 	}
-	
-	public Object getValue(int idx){
+
+	public Object getValue(int idx) {
 		return this.domains[idx].get(domIndices[idx]);
 	}
-	
-	public ProgramRel getRel(){
+
+	public ProgramRel getRel() {
 		return relation;
 	}
-	
+
 	public String getRelName() {
 		return relation.getName();
 	}
@@ -67,8 +71,7 @@ public class Tuple {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Arrays.hashCode(domIndices);
-		result = prime * result
-				+ ((relation == null) ? 0 : relation.hashCode());
+		result = prime * result + ((relation == null) ? 0 : relation.hashCode());
 		return result;
 	}
 
@@ -91,38 +94,46 @@ public class Tuple {
 		return true;
 	}
 
-	public String toString(){
+	public String toString() {
 		StringBuilder sb = new StringBuilder("");
 		sb.append(relation.getName());
 		sb.append("(");
-		for(int i = 0; i < domIndices.length; i++){
-			if(i!=0)
+		for (int i = 0; i < domIndices.length; i++) {
+			if (i != 0)
 				sb.append(',');
 			sb.append(domIndices[i]);
 		}
 		sb.append(")");
 		return sb.toString();
 	}
-	
-	
-	public String toSummaryString(String sep){
+
+	public String toSummaryString(String sep) {
 		StringBuilder sb = new StringBuilder("");
 		sb.append(relation.getName());
-		for(int i = 0; i < domIndices.length; i++){
+		for (int i = 0; i < domIndices.length; i++) {
 			sb.append(sep);
 			sb.append(domains[i].toUniqueString(domIndices[i]));
 		}
 		return sb.toString();
 	}
-	
-	public String toVerboseString(){
+
+	public String toVerboseString() {
 		StringBuilder sb = new StringBuilder("");
 		sb.append(this.toString());
 		sb.append(" : ");
-		for(int i = 0; i < domIndices.length; i++){
-			if(i!=0)
-				sb.append(',');
-			sb.append(domains[i].get(domIndices[i]));
+		for (int i = 0; i < domIndices.length; i++) {
+			if (i != 0)
+				sb.append(",  ");
+			Object o = domains[i].get(domIndices[i]);
+			if (o instanceof Quad) {
+				sb.append(((Quad) o).toVerboseStr());
+			} else if (o instanceof Register && relMV != null) {
+				Register r = (Register) o;
+				RelView view = relMV.getView();
+				view.selectAndDelete(1, r);
+				sb.append(r.toString() + "@" + view.getAry1ValTuples().iterator().next().toString());
+			}
+			sb.append(o);
 		}
 		return sb.toString();
 	}
