@@ -6,6 +6,8 @@ import chord.bddbddb.Dom;
 import chord.bddbddb.Rel.RelView;
 import chord.project.ClassicProject;
 import chord.project.analyses.ProgramRel;
+import chord.util.tuple.object.Pair;
+import joeq.Class.jq_Method;
 import joeq.Compiler.Quad.Quad;
 import joeq.Compiler.Quad.RegisterFactory.Register;
 
@@ -126,12 +128,17 @@ public class Tuple {
 				sb.append(",  ");
 			Object o = domains[i].get(domIndices[i]);
 			if (o instanceof Quad) {
-				sb.append(((Quad) o).toVerboseStr());
+				sb.append(((Quad) o).toVerboseStr()+"::");
 			} else if (o instanceof Register && relMV != null) {
 				Register r = (Register) o;
 				RelView view = relMV.getView();
 				view.selectAndDelete(1, r);
 				sb.append(r.toString() + "@" + view.getAry1ValTuples().iterator().next().toString());
+			} else if (o instanceof Pair){
+				Pair p = (Pair)o;
+				if(p.val0 instanceof Quad){
+					sb.append(((Quad) p.val0).toVerboseStr()+"::");
+				}
 			}
 			sb.append(o);
 		}
