@@ -107,6 +107,10 @@ specIMV(i,m,v) :- specIM(i,m), IinvkArg0(i,v).
 IM(i,m) :- reachableI(i), specIMV(i,m,v), VH(v,_).
 IM(i,m) :- reachableI(i), statIM(i,m).
 
+# Reflection
+IM(i,m) :- reachableI(i), objNewInstIM(i,m).
+IM(i,m) :- reachableI(i), conNewInstIM(i,m).
+
 # arguments and return/throw variables
 VV(v,u) :- IinvkArg(i,z,u), IM(i,m), MmethArg(m,z,v).
 VV(u,v) :- IinvkRet(i,z,u), IM(i,m), MmethRet(m,z,v).
