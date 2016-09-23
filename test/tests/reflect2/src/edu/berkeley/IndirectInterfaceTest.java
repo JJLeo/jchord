@@ -5,6 +5,10 @@ interface Root {
 }
 
 public class IndirectInterfaceTest implements Root {
+
+  public IndirectInterfaceTest(){
+	aMethod();
+  }
   
   public void aMethod() {
     System.out.println("in parent implementation");

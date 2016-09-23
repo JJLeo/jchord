@@ -147,6 +147,10 @@ public class CtxtsAnalysis extends JavaAnalysis {
     private ProgramRel relCtxtCpyM;
     private ProgramRel relEpsilonV;
 
+    // Reflection rels
+    private ProgramRel relObjNewInstIM;
+    private ProgramRel relConNewInstIM;
+
     public void run() {
         domV = (DomV) ClassicProject.g().getTrgt("V");
         domI = (DomI) ClassicProject.g().getTrgt("I");
@@ -156,6 +160,9 @@ public class CtxtsAnalysis extends JavaAnalysis {
 
         relIM = (ProgramRel) ClassicProject.g().getTrgt("IM");
         relVH = (ProgramRel) ClassicProject.g().getTrgt("VH");
+	
+	relObjNewInstIM = (ProgramRel) ClassicProject.g().getTrgt("objNewInstIM");
+	relConNewInstIM = (ProgramRel) ClassicProject.g().getTrgt("conNewInstIM");
         
         relCC = (ProgramRel) ClassicProject.g().getTrgt("CC");
         relCH = (ProgramRel) ClassicProject.g().getTrgt("CH");
@@ -293,6 +300,8 @@ public class CtxtsAnalysis extends JavaAnalysis {
 
         relIM.load();
         relVH.load();
+	relObjNewInstIM.load();
+	relConNewInstIM.load();
 
         Ctxt epsilon = domC.setCtxt(emptyElems);
         epsilonCtxtSet = new ArraySet<Ctxt>(1);
@@ -568,7 +577,21 @@ public class CtxtsAnalysis extends JavaAnalysis {
     private Iterable<Quad> getCallers(jq_Method meth) {
         RelView view = relIM.getView();
         view.selectAndDelete(1, meth);
-        return view.getAry1ValTuples();
+	Set<Quad> ret = new ArraySet<Quad>();
+        for(Object q : view.getAry1ValTuples())
+		ret.add((Quad)q);
+
+	view = relObjNewInstIM.getView();
+	view.selectAndDelete(1, meth);
+        for(Object q : view.getAry1ValTuples())
+		ret.add((Quad)q);
+
+	view = relConNewInstIM.getView();
+	view.selectAndDelete(1, meth);
+        for(Object q : view.getAry1ValTuples())
+		ret.add((Quad)q);
+
+	return ret;
     }
 
     private Quad[] combine(int k, Quad inst, Quad[] elems) {
