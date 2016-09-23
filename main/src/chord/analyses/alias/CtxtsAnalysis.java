@@ -160,9 +160,9 @@ public class CtxtsAnalysis extends JavaAnalysis {
 
         relIM = (ProgramRel) ClassicProject.g().getTrgt("IM");
         relVH = (ProgramRel) ClassicProject.g().getTrgt("VH");
-	
-	relObjNewInstIM = (ProgramRel) ClassicProject.g().getTrgt("objNewInstIM");
-	relConNewInstIM = (ProgramRel) ClassicProject.g().getTrgt("conNewInstIM");
+
+		relObjNewInstIM = (ProgramRel) ClassicProject.g().getTrgt("objNewInstIM");
+		relConNewInstIM = (ProgramRel) ClassicProject.g().getTrgt("conNewInstIM");
         
         relCC = (ProgramRel) ClassicProject.g().getTrgt("CC");
         relCH = (ProgramRel) ClassicProject.g().getTrgt("CH");
@@ -299,9 +299,9 @@ public class CtxtsAnalysis extends JavaAnalysis {
         validate();
 
         relIM.load();
-        relVH.load();
-	relObjNewInstIM.load();
-	relConNewInstIM.load();
+		relVH.load();
+		relObjNewInstIM.load();
+		relConNewInstIM.load();
 
         Ctxt epsilon = domC.setCtxt(emptyElems);
         epsilonCtxtSet = new ArraySet<Ctxt>(1);
@@ -575,23 +575,23 @@ public class CtxtsAnalysis extends JavaAnalysis {
     }
 
     private Iterable<Quad> getCallers(jq_Method meth) {
-        RelView view = relIM.getView();
-        view.selectAndDelete(1, meth);
-	Set<Quad> ret = new ArraySet<Quad>();
-        for(Object q : view.getAry1ValTuples())
-		ret.add((Quad)q);
+		RelView view = relIM.getView();
+		view.selectAndDelete(1, meth);
+		Set<Quad> ret = new ArraySet<Quad>();
+		for (Object q : view.getAry1ValTuples())
+			ret.add((Quad) q);
 
-	view = relObjNewInstIM.getView();
-	view.selectAndDelete(1, meth);
-        for(Object q : view.getAry1ValTuples())
-		ret.add((Quad)q);
+		view = relObjNewInstIM.getView();
+		view.selectAndDelete(1, meth);
+		for (Object q : view.getAry1ValTuples())
+			ret.add((Quad) q);
 
-	view = relConNewInstIM.getView();
-	view.selectAndDelete(1, meth);
-        for(Object q : view.getAry1ValTuples())
-		ret.add((Quad)q);
+		view = relConNewInstIM.getView();
+		view.selectAndDelete(1, meth);
+		for (Object q : view.getAry1ValTuples())
+			ret.add((Quad) q);
 
-	return ret;
+		return ret;
     }
 
     private Quad[] combine(int k, Quad inst, Quad[] elems) {
