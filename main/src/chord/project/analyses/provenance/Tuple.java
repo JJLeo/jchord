@@ -29,6 +29,13 @@ public class Tuple {
 		this.domIndices = indices;
 	}
 
+	public boolean isSpurious(){
+		for(int i = 0 ; i < domains.length; i++)
+			if(domIndices[i] < 0 || domIndices[i] >= domains[i].size())
+				return true;
+		return false;
+	}
+
 	/**
 	 * Assume s has the following form: VH(2,3)
 	 * 
