@@ -26,7 +26,7 @@ import joeq.Compiler.Quad.RegisterFactory.Register;
  * @author Xin Zhang
  */
 @Chord(
-    name = "PputInstFldInstNull",
+    name = "PputInstFldNullInst",
     sign = "P0,V0,F0:F0_P0_V0"
 )
 public class RelPputInstFldNullInst extends ProgramRel implements IHeapInstVisitor {
