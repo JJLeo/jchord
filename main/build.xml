@@ -129,6 +129,7 @@
 				<pathelement location="lib/j2h.jar"/>
 				<pathelement location="lib/saxon9.jar"/>
 				<pathelement location="lib/confspellcheck-0.1.jar"/>
+				<pathelement location="lib/guava-17.0.jar"/>
 			</classpath>
 		</javac>
 		<jar destfile="chord.jar" basedir="classes" includes="**/*.class" duplicate="fail">
@@ -145,6 +146,8 @@
             <zipfileset includes="**/*.class" src="lib/j2h.jar"/>
             <zipfileset includes="**/*.class" src="lib/saxon9.jar"/>
             <zipfileset includes="**/*.class" src="lib/confspellcheck-0.1.jar"/>
+	    <zipfileset includes="**/*.class" src="lib/guava-17.0.jar"/>
+
 			<fileset dir=".">
 				<include name="web/*"/>
 			</fileset>

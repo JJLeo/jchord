@@ -65,7 +65,7 @@ my %benchmarks = (
 );
 my @programs = keys %benchmarks;
 
-my @analyses = ("thresc_hybrid", "thresc_metaback", "typestate_metaback","mustalias", "mustalias-td",  "mustalias-tdbu","mustalias-bu", "provenance-instr", "provenance-kcfa", "provenance-kobj", "provenance-typestate", "refinegen-kobj");
+my @analyses = ("thresc_hybrid", "thresc_metaback", "typestate_metaback","mustalias", "mustalias-td",  "mustalias-tdbu","mustalias-bu", "provenance-instr", "provenance-kcfa", "provenance-kobj", "provenance-typestate", "refinegen-kobj", "ursa-datarace");
 
 # Lowest priority options, but still higher than $chord_main_dir/chord.properties
 my @global_options = (
@@ -290,6 +290,23 @@ my %local_options_map = (
         "-Dchord.reuse.scope=false",
 	"-Dchord.reflect.kind=dynamic",
      ],
+    "ursa-datarace" => 
+    [
+        "-Dchord.check.exclude=java.,com.,sun.,sunw.,javax.,launcher.",
+        "-Dchord.max.heap=64g",
+        "-Dchord.bddbddb.max.heap=40g",
+        "-Dchord.reflect.exclude=true",
+        "-Dchord.reflect.kind=dynamic",
+        "-Dchord.reuse.scope=false",
+        "-Dchord.run.analyses=ursa-datarace-java",
+        "-Dchord.scope.exclude=com.,sun.",
+        "-Dchord.mln.mode=oracle",
+	"-Dchord.datarace.exclude.init=false",
+	"-Dchord.datarace.exclude.eqth=true",
+	"-Dchord.datarace.exclude.nongrded=true"
+    ],
+
+
 );
 
 # Higher priority options, but lower than @cmdline_options below, which are highest.
@@ -621,7 +638,6 @@ my %bench_options_map = (
 
 
    	},
-
 );
 
 ######################################################################################
