@@ -145,16 +145,16 @@ public class URSADataraceDriver extends URSAAnalysisDriver {
 	@Override
 	protected String[] getConfigFiles() {
 		String[] configFiles = new String[4];
-		String chordMain = System.getenv("CHORD_INCUBATOR");
+		String chordMain = System.getenv("CHORD_MAIN");
 		configFiles[0] = chordMain + File.separator
-				+ "src/chord/analyses/mln/datarace/flowins-thresc-cs-dlog_XZ89_.config";
-		configFiles[1] = chordMain + File.separator + "src/chord/analyses/mln/datarace/mhp-cs-dlog_XZ89_.config";
+				+ "src/chord/analyses/ursa/datarace/flowins-thresc-cs-dlog_XZ89_.config";
+		configFiles[1] = chordMain + File.separator + "src/chord/analyses/ursa/datarace/mhp-cs-dlog_XZ89_.config";
 		// configFiles[1] = chordMain + File.separator +
-		// "src/chord/analyses/mln/datarace/datarace-escaping-include-cs-dlog_XZ89_.config";
+		// "src/chord/analyses/ursa/datarace/datarace-escaping-include-cs-dlog_XZ89_.config";
 		configFiles[2] = chordMain + File.separator
-				+ "src/chord/analyses/mln/datarace/datarace-parallel-include-cs-dlog_XZ89_.config";
+				+ "src/chord/analyses/ursa/datarace/datarace-parallel-include-cs-dlog_XZ89_.config";
 		configFiles[3] = chordMain + File.separator
-				+ "src/chord/analyses/mln/datarace/datarace-cs-noneg-dlog_XZ89_.config";
+				+ "src/chord/analyses/ursa/datarace/datarace-cs-noneg-dlog_XZ89_.config";
 		return configFiles;
 	}
 
@@ -174,11 +174,11 @@ public class URSADataraceDriver extends URSAAnalysisDriver {
 		// tasks.add(ClassicProject.g().getTask("mhp-cs-dlog"));
 
 		// also, we need to output all relations
-		tasks.add(ClassicProject.g().getTask("flowins-thresc-cs-dlog_XZ89_"));
-		tasks.add(ClassicProject.g().getTask("mhp-cs-dlog_XZ89_"));
-		tasks.add(ClassicProject.g().getTask("datarace-parallel-include-cs-dlog_XZ89_"));
+		tasks.add(ClassicProject.g().getTask("ursa-flowins-thresc-cs-dlog_XZ89_"));
+		tasks.add(ClassicProject.g().getTask("ursa-mhp-cs-dlog_XZ89_"));
+		tasks.add(ClassicProject.g().getTask("ursa-datarace-parallel-include-cs-dlog_XZ89_"));
 		// tasks.add(ClassicProject.g().getTask("datarace-escaping-include-cs-dlog_XZ89_"));
-		tasks.add(ClassicProject.g().getTask("datarace-cs-noneg-dlog_XZ89_"));
+		tasks.add(ClassicProject.g().getTask("ursa-datarace-cs-noneg-dlog_XZ89_"));
 	}
 
 	/**

@@ -1,4 +1,4 @@
-# name=reachableACM-dlog_XZ89_
+# name=ursa-reachableACM-dlog_XZ89_
 .include "M.dom"
 .include "I.dom"
 .include "AS.dom"

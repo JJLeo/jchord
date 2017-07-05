@@ -35,7 +35,7 @@ import joeq.Compiler.Quad.Quad;
  * -Dchord.ursa.classifier=<dynamic/none>
  * 
  */
-@Chord(name = "cipa-mln-gen", consumes = { "checkExcludedV", "checkExcludedH", "checkExcludedT", "checkExcludedI" })
+@Chord(name = "ursa-cipa", consumes = { "checkExcludedV", "checkExcludedH", "checkExcludedT", "checkExcludedI" })
 public class URSAcipaDriver extends URSAAnalysisDriver {
 	private static Set<String> relsWithLabels;
 	private static Set<String> oracleRels;
@@ -336,11 +336,10 @@ public class URSAcipaDriver extends URSAAnalysisDriver {
 	@Override
 	protected String[] getConfigFiles() {
 
-		// String chordMain = System.getenv("CHORD_MAIN");
+		String chordMain = System.getenv("CHORD_MAIN");
 
-		String chordIncubator = System.getenv("CHORD_INCUBATOR");
-		String cipaConfig = chordIncubator + File.separator + "src/chord/analyses/mln/cipa/cipa-0cfa-dlog_XZ89_.config";
-		String ptsConfig = chordIncubator + File.separator + "src/chord/analyses/mln/cipa/cipa-pts-dlog_XZ89_.config";
+		String cipaConfig = chordMain + File.separator + "src/chord/analyses/ursa/cipa/cipa-0cfa-dlog_XZ89_.config";
+		String ptsConfig = chordMain + File.separator + "src/chord/analyses/ursa/cipa/cipa-pts-dlog_XZ89_.config";
 
 		String[] configFiles = new String[] { cipaConfig, ptsConfig };
 		return configFiles;
@@ -351,9 +350,9 @@ public class URSAcipaDriver extends URSAAnalysisDriver {
 	protected void genTasks() {
 		tasks = new ArrayList<ITask>();
 
-		tasks.add(ClassicProject.g().getTask("cipa-0cfa-dlog_XZ89_"));
+		tasks.add(ClassicProject.g().getTask("ursa-cipa-0cfa-dlog_XZ89_"));
 
-		tasks.add(ClassicProject.g().getTask("cipa-pts-dlog_XZ89_"));
+		tasks.add(ClassicProject.g().getTask("ursa-cipa-pts-dlog_XZ89_"));
 	}
 
 	private String getClient() {
@@ -383,7 +382,6 @@ public class URSAcipaDriver extends URSAAnalysisDriver {
 	@Override
 	protected void readSettings() {
 		super.readSettings();
-		String clientStr = System.getProperty("chord.mln.client", "pts");
 
 		this.classifierKind = System.getProperty("chord.ursa.classifier", "dynamic");
 
@@ -398,128 +396,6 @@ public class URSAcipaDriver extends URSAAnalysisDriver {
 		return axiomTuples;
 	}
 
-	// manual labels
-	private boolean ifFollowDynamicJspider(Tuple t) {
-		if (!t.getRelName().equals("IM") && !t.getRelName().equals("VH"))
-			return false;
-		Dom dom1 = t.getDomains()[0];
-		Dom dom2 = t.getDomains()[1];
-		int indices[] = t.getIndices();
-		String str1 = dom1.toUniqueString(indices[0]);
-		String str2 = dom2.toUniqueString(indices[1]);
-		// IMs
-		if (t.getRelName().equals("IM")) {
-			// IM(6394,2280)
-			if (str1.equals(
-					"3!registerEvent:(Ljava/net/URL;Lnet/javacoding/jspider/core/event/CoreEvent;)V@net.javacoding.jspider.core.impl.AgentImpl")
-					&& str2.equals(
-							"accept:(Ljava/net/URL;Lnet/javacoding/jspider/core/event/CoreEventVisitor;)V@net.javacoding.jspider.core.event.impl.URLSpideredErrorEvent"))
-				return false;
-		}
-		// VH
-		if (t.getRelName().equals("VH")) {
-			// VH(17206,1660)
-			if (str1.equals(
-					"T4!getConfiguration:()Lnet/javacoding/jspider/core/util/config/JSpiderConfiguration;@net.javacoding.jspider.core.util.config.ConfigurationFactory")
-					&& str2.equals(
-							"6!getConfiguration:()Lnet/javacoding/jspider/core/util/config/JSpiderConfiguration;@net.javacoding.jspider.core.util.config.ConfigurationFactory")) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private boolean ifFollowDynamicHedc(Tuple t) {
-		if (!t.getRelName().equals("IM") && !t.getRelName().equals("VH"))
-			return false;
-		Dom dom1 = t.getDomains()[0];
-		Dom dom2 = t.getDomains()[1];
-		int indices[] = t.getIndices();
-		String str1 = dom1.toUniqueString(indices[0]);
-		String str2 = dom2.toUniqueString(indices[1]);
-		// IMs
-		if (t.getRelName().equals("IM")) {
-			// IM(1089.*)
-			if (str1.equals("10!match:(Lhedc/regexp/State;)Z@hedc.regexp.Regexp"))
-				return false;
-		}
-		// VH
-		if (t.getRelName().equals("VH")) {
-			// VH(1567,106)
-			if (str1.equals(
-					"T25!makeTasks:(Ljava/util/Hashtable;Ljava/util/Date;Lhedc/MetaSearchRequest;)Ljava/util/List;@hedc.TaskFactory")
-					&& str2.equals("33!<clinit>:()V@hedc.TaskFactory"))
-				return false;
-		}
-		return true;
-
-	}
-
-	private boolean ifFollowDynamicFtp(Tuple t) {
-		if (!t.getRelName().equals("IM") && !t.getRelName().equals("VH"))
-			return false;
-		Dom dom1 = t.getDomains()[0];
-		Dom dom2 = t.getDomains()[1];
-		int indices[] = t.getIndices();
-		String str1 = dom1.toUniqueString(indices[0]);
-		String str2 = dom2.toUniqueString(indices[1]);
-		// IMs
-		if (t.getRelName().equals("IM")) {
-			Quad qi = (Quad) t.getValue(0);
-			jq_Method m = (jq_Method) t.getValue(1);
-			// IM(15234.*)
-			if (str1.equals(
-					"22!service:(Lorg/apache/ftpserver/FtpRequestImpl;Lorg/apache/ftpserver/FtpWriter;)V@org.apache.ftpserver.RequestHandler"))
-				return false;
-			// IM(14581,*), actually any invocation related to
-			// org.apache.ftpserver.ftplet.Configuration
-			if (Invoke.getMethod(qi).getMethod().getDeclaringClass().toString()
-					.equals("org.apache.ftpserver.ftplet.Configuration"))
-				return false;
-			// IM(16759,4642), actullay any method related to LogFactory
-			if (m.getDeclaringClass().toString().equals("org.apache.commons.logging.LogFactory"))
-				return false;
-			// IM(15224,.*)
-			if (str1.equals(
-					"22!service:(Lorg/apache/ftpserver/FtpRequestImpl;Lorg/apache/ftpserver/FtpWriter;)V@org.apache.ftpserver.RequestHandler"))
-				return false;
-		}
-		// VH
-		if (t.getRelName().equals("VH")) {
-			// VH(33013,3054)
-			if (str1.equals("T1!getUser:()Lorg/apache/ftpserver/ftplet/User;@org.apache.ftpserver.FtpRequestImpl")
-					&& str2.equals("1!reinitialize:()V@org.apache.ftpserver.FtpRequestImpl"))
-				return false;
-		}
-		return true;
-	}
-
-	private boolean ifFollowDynamicWeblech(Tuple t) {
-		if (!t.getRelName().equals("IM") && !t.getRelName().equals("VH"))
-			return false;
-		Dom dom1 = t.getDomains()[0];
-		Dom dom2 = t.getDomains()[1];
-		int indices[] = t.getIndices();
-		String str1 = dom1.toUniqueString(indices[0]);
-		String str2 = dom2.toUniqueString(indices[1]);
-		// IMs
-		if (t.getRelName().equals("IM")) {
-			Quad i = (Quad) t.getValue(0);
-			if (i.getMethod().getDeclaringClass().toString().contains("org.apache.log4j"))
-				return false;
-		}
-		// VH
-		if (t.getRelName().equals("VH")) {
-			Quad h = (Quad) t.getValue(1);
-			if (h.getMethod().getDeclaringClass().toString().contains("org.apache.log4j"))
-				return false;
-			// VH(34710,3004)
-			if (str1.equals("T1!getURL:()Ljava/net/URL;@weblech.spider.URLToDownload") && str2.equals(
-					"238!extractAttributesFromTags:(Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;Ljava/util/List;Ljava/util/Set;Ljava/lang/String;)V@weblech.spider.HTMLParser"))
-				return false;
-		}
-		return true;
-	}
 
 	@Override
 	protected void predict(Set<Tuple> tuples, Set<ConstraintItem> provenance, String classifierPath) {

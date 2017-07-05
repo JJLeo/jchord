@@ -1,4 +1,4 @@
-# name=datarace-parallel-include-cs-dlog_XZ89_
+# name=ursa-datarace-parallel-include-cs-dlog_XZ89_
 .include "AS.dom"
 .include "C.dom"
 .include "E.dom"

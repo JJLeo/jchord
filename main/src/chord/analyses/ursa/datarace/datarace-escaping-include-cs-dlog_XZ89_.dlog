@@ -1,4 +1,4 @@
-# name=datarace-escaping-include-cs-dlog_XZ89_
+# name=ursa-datarace-escaping-include-cs-dlog_XZ89_
 .include "C.dom"
 .include "E.dom"
 .include "V.dom"

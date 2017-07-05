@@ -1,4 +1,4 @@
-# name=cipa-pts-dlog
+# name=ursa-cipa-pts-dlog
 
 .include "H.dom"
 .include "M.dom"

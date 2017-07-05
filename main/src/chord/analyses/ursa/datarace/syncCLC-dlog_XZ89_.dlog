@@ -1,4 +1,4 @@
-# name=syncCLC-dlog_XZ89_
+# name=ursa-syncCLC-dlog_XZ89_
 .include "C.dom"
 .include "M.dom"
 .include "V.dom"
