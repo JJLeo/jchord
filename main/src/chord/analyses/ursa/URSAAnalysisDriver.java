@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -24,13 +25,15 @@ import chord.project.analyses.provenance.Tuple;
 
 /**
  * 
- * -Dchord.ursa.classifierFile=<null>
+ * -Dchord.ursa.classifierFile=<external classifier file path>
+ * -Dchord.ursa.labelFile=<null>
  * 
  */
 public abstract class URSAAnalysisDriver extends JavaAnalysis {
 										// on the query weights
 	protected List<ITask> tasks;
 	private String classifierPath = null;
+	private String labelFile = null;
 	
 	protected abstract Set<String> getDerivedRelations();
 
@@ -391,6 +394,7 @@ public abstract class URSAAnalysisDriver extends JavaAnalysis {
 
 	protected void readSettings() {
 		this.classifierPath = System.getProperty("chord.ursa.classifierFile");
+		this.labelFile = System.getProperty("chord.ursa.labelFile");
 	}
 	
 	protected void predict(Set<Tuple> tuples, Set<ConstraintItem> provenance, String classifierPath){}
@@ -407,29 +411,85 @@ public abstract class URSAAnalysisDriver extends JavaAnalysis {
 		this.readSettings();
 		this.genTasks();
 		this.runBaseCase();
-		
-		if(this.classifierPath != null){
-			Set<ConstraintItem> provenance = new HashSet<ConstraintItem>();
-			List<LookUpRule> rules = this.getRules();
-			for(LookUpRule r : rules){
-				Iterator<ConstraintItem> iter = r.getAllConstrIterator();
-				while(iter.hasNext()){
-					provenance.add(iter.next());
-				}
+
+		Set<ConstraintItem> provenance = new HashSet<ConstraintItem>();
+		List<LookUpRule> rules = this.getRules();
+		for (LookUpRule r : rules) {
+			Iterator<ConstraintItem> iter = r.getAllConstrIterator();
+			while (iter.hasNext()) {
+				provenance.add(iter.next());
 			}
-			Set<Tuple> tuples = new HashSet<Tuple>();
-			tuples.addAll(this.loadTuples(false));
-			tuples.addAll(this.loadTuples(true));
-			this.predict(tuples, provenance, this.classifierPath);
 		}
+		Set<Tuple> tuples = new HashSet<Tuple>();
+		tuples.addAll(this.loadTuples(false));
+		tuples.addAll(this.loadTuples(true));
+		this.predict(tuples, provenance, this.classifierPath);
 		
 		Set<Tuple> base_queries = this.generateFinalQueries(Config.outDirName + File.separator + "base_queries.txt");
+		
+		Set<Tuple> falseTuples = this.loadLabels();
 
 		this.generateProblem(Config.outDirName + File.separator + "base_problem.edb");
 		this.generateScope(Config.outDirName + File.separator + "base_scope.edb");
 		this.generateAppScope(Config.outDirName + File.separator + "app_base_scope.edb");
 //		this.generateScopeVerbose(Config.outDirName + File.separator + "base_scope_verbose.edb");
 		this.generateGroundedConstraints(Config.outDirName + File.separator + "cons_all.txt");
+		Set<Tuple> derivedTuples = this.loadTuples(true);
+		Set<Tuple> inputTuples = this.loadTuples(false);
+		this.generateFeedback(Config.outDirName + File.separator + "label_derived.edb", derivedTuples, falseTuples);
+		this.generateFeedback(Config.outDirName + File.separator + "label_input.edb", inputTuples, falseTuples);
 	}
 
+	private Set<Tuple> loadLabels() {
+		Set<Tuple> ret = new HashSet<Tuple>();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(this.labelFile));
+			String line;
+			while((line = br.readLine())!=null){
+				if(line.startsWith("//"))
+					continue;
+				if(line.startsWith("!")){//a tuple that is spurious
+					line = line.substring(1);
+					String tokens[] = line.split("\\(");
+					String relName = tokens[0];
+					ProgramRel rel = (ProgramRel)ClassicProject.g().getTrgt(relName);
+					Dom doms [] = rel.getDoms();
+					int indices[] = new int[doms.length];
+					for(int i = 0 ; i < doms.length; i++){
+						line = br.readLine().trim();
+						for(int j = 0 ; j < doms[i].size(); j++){
+							String dstr = doms[i].toUniqueString(j).trim();
+							if(line.equals(dstr)){
+								indices[i] = j;
+								break;
+							}
+						}
+					}
+					ret.add(new Tuple(rel,indices));
+				}
+			}
+			br.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return ret;
+	}
+
+	protected void generateFeedback(String feedbackFile, Set<Tuple> baseTuples, Set<Tuple> falseTuples) {
+		try {
+			PrintWriter pw = new PrintWriter(new File(feedbackFile));
+			pw.println("// Feedback");
+			for (Tuple t : baseTuples) {
+				boolean ifSurvive = !falseTuples.contains(t);
+				if (ifSurvive)
+					pw.println(t);
+				else
+					pw.println("!" + t);
+			}
+			pw.flush();
+			pw.close();
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
