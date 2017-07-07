@@ -65,7 +65,7 @@ my %benchmarks = (
 );
 my @programs = keys %benchmarks;
 
-my @analyses = ("thresc_hybrid", "thresc_metaback", "typestate_metaback","mustalias", "mustalias-td",  "mustalias-tdbu","mustalias-bu", "provenance-instr", "provenance-kcfa", "provenance-kobj", "provenance-typestate", "refinegen-kobj", "ursa-datarace");
+my @analyses = ("thresc_hybrid", "thresc_metaback", "typestate_metaback","mustalias", "mustalias-td",  "mustalias-tdbu","mustalias-bu", "provenance-instr", "provenance-kcfa", "provenance-kobj", "provenance-typestate", "refinegen-kobj", "ursa-datarace", "ursa-cipa");
 
 # Lowest priority options, but still higher than $chord_main_dir/chord.properties
 my @global_options = (
@@ -303,8 +303,28 @@ my %local_options_map = (
         "-Dchord.mln.mode=oracle",
 	"-Dchord.datarace.exclude.init=false",
 	"-Dchord.datarace.exclude.eqth=true",
-	"-Dchord.datarace.exclude.nongrded=true"
+	"-Dchord.datarace.exclude.nongrded=true",
+	"-D chord.trace.kind=pipe",
+	"-D chord.use.jvmti=true",
     ],
+    "ursa-cipa" => 
+    [
+        "-Dchord.check.exclude=java.,com.,sun.,sunw.,javax.,launcher.",
+        "-Dchord.max.heap=64g",
+        "-Dchord.bddbddb.max.heap=40g",
+        "-Dchord.reflect.exclude=true",
+        "-Dchord.reflect.kind=dynamic",
+        "-Dchord.reuse.scope=false",
+        "-Dchord.run.analyses=ursa-cipa-java",
+        "-Dchord.scope.exclude=com.,sun.",
+        "-Dchord.mln.mode=oracle",
+	"-Dchord.datarace.exclude.init=false",
+	"-Dchord.datarace.exclude.eqth=true",
+	"-Dchord.datarace.exclude.nongrded=true",
+	"-D chord.trace.kind=pipe",
+	"-D chord.use.jvmti=true",
+    ],
+
 
 
 );

@@ -35,7 +35,7 @@ import joeq.Compiler.Quad.Quad;
  * -Dchord.ursa.classifier=<dynamic/none>
  * 
  */
-@Chord(name = "ursa-cipa", consumes = { "checkExcludedV", "checkExcludedH", "checkExcludedT", "checkExcludedI" })
+@Chord(name = "ursa-cipa-java", consumes = { "checkExcludedV", "checkExcludedH", "checkExcludedT", "checkExcludedI" })
 public class URSAcipaDriver extends URSAAnalysisDriver {
 	private static Set<String> relsWithLabels;
 	private static Set<String> oracleRels;
