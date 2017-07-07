@@ -304,8 +304,8 @@ my %local_options_map = (
 	"-Dchord.datarace.exclude.init=false",
 	"-Dchord.datarace.exclude.eqth=true",
 	"-Dchord.datarace.exclude.nongrded=true",
-	"-D chord.trace.kind=pipe",
-	"-D chord.use.jvmti=true",
+	"-Dchord.trace.kind=pipe",
+	"-Dchord.use.jvmti=true",
     ],
     "ursa-cipa" => 
     [
@@ -321,8 +321,8 @@ my %local_options_map = (
 	"-Dchord.datarace.exclude.init=false",
 	"-Dchord.datarace.exclude.eqth=true",
 	"-Dchord.datarace.exclude.nongrded=true",
-	"-D chord.trace.kind=pipe",
-	"-D chord.use.jvmti=true",
+	"-Dchord.trace.kind=pipe",
+	"-Dchord.use.jvmti=true",
     ],
 
 
