@@ -7,16 +7,15 @@ It is open source software distributed under the [New BSD License](http://www.op
 
 # Documentation
 
-* User Guide [HTML](http://www.seas.upenn.edu/~mhnaik/chord/user_guide/index.html) [PDF](http://www.seas.upenn.edu/~mhnaik/chord/user_guide.pdf).
-* [Tutorial](http://www.seas.upenn.edu/~mhnaik/chord/pldi11/tutorial.pptx) (presented at PLDI 2011)
+* User Guide in [HTML](http://www.seas.upenn.edu/~mhnaik/chord/user_guide/index.html) or [PDF](http://www.seas.upenn.edu/~mhnaik/chord/user_guide.pdf).
+* [Tutorial](http://www.seas.upenn.edu/~mhnaik/chord/pldi11/tutorial.pptx) (presented at PLDI 2011).
 
 # Talks
 
 * [Chord: An Extensible Program Analysis Framework Using CnC](http://www.cis.upenn.edu/~mhnaik/slides/chord_cnc2010.ppt), 
-  Mayur Naik, 2nd Concurrent Collections Workshop, Oct 2010.
+  2nd Concurrent Collections Workshop, Oct 2010.
 * [Mechanizing Program Analysis With Chord](http://www.cis.upenn.edu/~mhnaik/slides/chord_lfx2010.ppt), 
-  Mayur Naik, 1st Workshop on LFX: Learning From eXperience, Jun 2010.
-
+  1st Workshop on LFX: Learning From eXperience, Jun 2010.
 
 # Questions?
 
