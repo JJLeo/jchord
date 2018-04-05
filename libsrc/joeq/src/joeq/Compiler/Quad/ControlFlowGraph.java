@@ -387,7 +387,7 @@ public class ControlFlowGraph implements Graph, Serializable {
     }
     
     public boolean removeUnreachableBasicBlocks() {
-        Collection allBasicBlocks = new HashSet(reversePostOrder(entry()));
+        Collection allBasicBlocks = reversePostOrder(entry());
         boolean change = false;
         for (BasicBlock bb : reversePostOrder()) {
             if (bb.getPredecessors().retainAll(allBasicBlocks))
@@ -408,11 +408,14 @@ public class ControlFlowGraph implements Graph, Serializable {
             }
             change = true;
             allBasicBlocks.removeAll(allBasicBlocks2);
-            BasicBlock bb = (BasicBlock) allBasicBlocks.iterator().next();
+            BasicBlock bb = null;
+            for (Iterator bbIt = allBasicBlocks.iterator(); bbIt.hasNext(); )
+                bb = (BasicBlock) bbIt.next();
+            assert (bb != null);
             System.out.println("Infinite loop discovered in "+this.getMethod()+", linking "+bb+" to exit.");
             bb.addSuccessor(exit());
             exit().addPredecessor(bb);
-            allBasicBlocks = new HashSet(reversePostOrder(entry()));
+            allBasicBlocks = reversePostOrder(entry());
             
             //Fix added: If infinite loop exists, remove dangling predecessors
             exit().getPredecessors().retainAll(allBasicBlocks);
