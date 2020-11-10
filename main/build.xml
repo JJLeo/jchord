@@ -114,7 +114,7 @@
 	<target name="compile-j-part">
 		<mkdir dir="classes"/>
 		<javac debug="true" debuglevel="source,lines,vars" includeAntRuntime="false"
-				source="1.5" target="1.5" destdir="classes" srcdir="src">
+				source="1.6" target="1.6" destdir="classes" srcdir="src">
 			<classpath>
 				<pathelement location="lib/joeq.jar"/>
 				<pathelement location="lib/jwutil.jar"/>
